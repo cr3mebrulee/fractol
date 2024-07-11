@@ -3,36 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fzucconi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/16 12:35:21 by fzucconi          #+#    #+#             */
-/*   Updated: 2023/10/16 12:35:22 by fzucconi         ###   ########.fr       */
+/*   Created: 2023/11/20 15:18:06 by taretiuk          #+#    #+#             */
+/*   Updated: 2023/11/23 16:58:47 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *s)
+int	ft_atoi(const char *str)
 {
-	int		sign;
-	long	slz;
+	int	i;
+	int	sign;
+	int	result;
 
+	i = 0;
 	sign = 1;
-	slz = 0;
-	while (*s == ' ' || (*s >= 9 && *s <= 13))
-		s++;
-	if (*s == '+' || *s == '-')
+	result = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		if (!ft_isdigit(*(s + 1)))
-			return (0);
-		if (*s == '-')
+		if (str[i] == '-')
 			sign *= -1;
-		s++;
+		i++;
 	}
-	while (*s >= '0' && *s <= '9' && *s != '\0')
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		slz = slz * 10 + (*s - '0');
-		s++;
+		result = (str[i] - '0') + (result * 10);
+		i++;
 	}
-	return (sign * (int)slz);
+	return (result * sign);
 }

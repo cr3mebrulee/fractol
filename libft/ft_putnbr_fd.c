@@ -3,50 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fzucconi <fzucconi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/16 11:58:28 by fzucconi          #+#    #+#             */
-/*   Updated: 2023/11/22 19:17:36 by fzucconi         ###   ########.fr       */
+/*   Created: 2023/12/01 16:57:40 by taretiuk          #+#    #+#             */
+/*   Updated: 2023/12/01 17:22:48 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	lenght(long long int n)
+void	ft_putnbr_fd(int nb, int fd)
 {
-	size_t	counter;
+	unsigned int	nbr;
 
-	counter = 0;
-	if (n == 0)
-		return (1);
-	while (n)
+	if (nb < 0)
 	{
-		n /= 10;
-		counter++;
+		ft_putchar_fd('-', fd);
+		nbr = (unsigned int)(nb * -1);
 	}
-	return (counter);
-}
-
-void	ft_putnbr_fd(int n, int fd)
-{
-	char					ans[12];
-	int						len;
-	long long int			buf;
-
-	buf = (long long int)n;
-	if (buf < 0)
-		len = lenght(buf) + 1;
 	else
-		len = lenght(buf);
-	if (buf < 0)
-		buf *= -1;
-	ans[len--] = 0;
-	while (len >= 0)
-	{
-		ans[len--] = (buf % 10) + '0';
-		buf /= 10;
-	}
-	if (n < 0)
-		ans[0] = '-';
-	ft_putstr_fd((char *)ans, fd);
+		nbr = (unsigned int)nb;
+	if (nbr >= 10)
+		ft_putnbr_fd(nbr / 10, fd);
+	ft_putchar_fd((char)(nbr % 10 + 48), fd);
 }

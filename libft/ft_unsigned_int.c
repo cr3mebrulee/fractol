@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs_double.c                                    :+:      :+:    :+:   */
+/*   ft_unsigned_int.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 11:03:20 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/09 11:03:27 by taretiuk         ###   ########.fr       */
+/*   Created: 2024/01/04 17:18:04 by taretiuk          #+#    #+#             */
+/*   Updated: 2024/05/16 20:54:26 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-double	abs_double(double n)
+void	ft_unsigned_int(unsigned int number, int *length)
 {
-	if (n < 0)
-		return (n * -1);
-	return (n);
+	if (number > 9)
+	{
+		ft_unsigned_int(number / 10, length);
+		ft_unsigned_int(number % 10, length);
+	}
+	else
+		ft_char_length((number + 48), length);
 }

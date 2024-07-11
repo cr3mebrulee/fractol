@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fzucconi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 15:22:37 by fzucconi          #+#    #+#             */
-/*   Updated: 2023/10/12 15:22:38 by fzucconi         ###   ########.fr       */
+/*   Created: 2023/11/18 10:27:20 by taretiuk          #+#    #+#             */
+/*   Updated: 2023/12/03 11:52:54 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,39 @@
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	void	*buf;
+	size_t			i;
+	unsigned char	*tmp;
 
-	buf = dest;
-	if ((dest == src) || n == 0)
-		return (dest);
-	if (dest > src)
-		while (n--)
-			((unsigned char *)dest)[n] = ((unsigned char *)src)[n];
-	else
+	if (!dest && !src)
+		return (NULL);
+	tmp = (unsigned char *)src;
+	if ((unsigned char *)dest > tmp)
 	{
-		while (n--)
+		i = n;
+		while (n-- > 0)
 		{
-			*(unsigned char *)dest = *(unsigned char *)src;
-			dest++;
-			src++;
+			((unsigned char *)dest)[n] = tmp[n];
 		}
 	}
-	return (buf);
+	else
+	{
+		i = 0;
+		while (i < n)
+		{
+			((unsigned char *)dest)[i] = tmp[i];
+			i++;
+		}
+	}
+	return (dest);
 }
+/*
+int	main(void)
+{
+	char	dest[30];
+	char *src = "lorem ipum dolor sit a cat";
+	 if (dest != ft_memmove(dest, src, 8))
+        write(1, "dest's adress was not returned\n", 31);
+    write(1, dest, 22);;
+	return (0);
+}
+*/

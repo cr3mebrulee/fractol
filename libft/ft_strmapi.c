@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fzucconi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 19:06:21 by fzucconi          #+#    #+#             */
-/*   Updated: 2023/10/12 19:06:22 by fzucconi         ###   ########.fr       */
+/*   Created: 2023/12/01 13:17:43 by taretiuk          #+#    #+#             */
+/*   Updated: 2023/12/01 16:05:32 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char				*ans;
-	unsigned int		index;
-	unsigned int		len;
+	char	*new_str;
+	int		length;
+	int		i;
 
-	if (!s || !f)
-		return (0);
-	len = ft_strlen(s);
-	ans = (char *)malloc(sizeof(char) * len + 1);
-	if (!ans)
-		return (0);
-	index = 0;
-	while (s[index])
+	if (!s)
+		return (NULL);
+	length = ft_strlen(s);
+	new_str = (char *) malloc(length * sizeof(char) + 1);
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0')
 	{
-		ans[index] = f(index, s[index]);
-		index++;
+		new_str[i] = (*f)(i, s[i]);
+		i++;
 	}
-	ans[index] = '\0';
-	return (ans);
+	new_str[length] = '\0';
+	return (new_str);
 }

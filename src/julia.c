@@ -1,4 +1,16 @@
-#include "../inc/fractol.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   julia.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/08 17:21:13 by taretiuk          #+#    #+#             */
+/*   Updated: 2024/07/11 15:01:53 by taretiuk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/fractol.h"
 
 // Calculates whether a given point belongs to the Julia set.
 void	calculate_julia(t_fractal *fractal)
@@ -15,8 +27,9 @@ void	calculate_julia(t_fractal *fractal)
 	while (++i < fractal->max_iter && (fractal->z_x
 			* fractal->z_x + fractal->z_y * fractal->z_y) < 4)
 	{
+		// Storing initial value of x
 		x_tmp = fractal->z_x;
-		// Updating the real part of complex number z: 
+		// Updating the real part of complex number z:
 		fractal->z_x = fractal->z_x * fractal->z_x - fractal->z_y
 			* fractal->z_y + fractal->c_x - 0.8;
 		// Updating the imaginary part of complex number z: 2xy + b
@@ -24,13 +37,17 @@ void	calculate_julia(t_fractal *fractal)
 	}
 	// Color the pixel based on the number of iterations
 	if (i == fractal->max_iter)
+	{
 		my_mlx_pixel_put(fractal, fractal->x, fractal->y, 0x000000);
+	}
 	else
+	{
 		my_mlx_pixel_put(fractal, fractal->x, fractal->y, (i * fractal->color));
+	}
 }
 
 // Iterates over each pixel in the window and calls calculate_julia for each pixel.
-void	*draw_julia(t_fractal *fractal)
+void	*render_julia(t_fractal *fractal)
 {
 	fractal->x = 0;
 	while (fractal->x < WIDTH)
@@ -53,7 +70,7 @@ int	julia_hook(int keycode, t_fractal *fractal)
 {
 	if (keycode == J)
 	{
-		random_double(fractal);
+		generate_double(fractal);
 		ft_printf("Rnd Julia!\ncx: %f\tcy: %f\n", fractal->c_x, fractal->c_y);
 	}
 	else if (keycode == K)
@@ -77,7 +94,7 @@ void	reset_julia(t_fractal *fractal)
 	fractal->c_x = 0.0;
 	fractal->c_y = 0.138240;
 	fractal->color_shift_step = (255 * 255 * 255) / 100;
-	fractal->color = BASE_COLOR;
+	fractal->color = INITIAL_COLOR;
 	fractal->max_iter = 100;
 	fractal->zoom = 300;
 	fractal->offset_x = -2.1;

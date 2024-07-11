@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs_double.c                                    :+:      :+:    :+:   */
+/*   ft_char_length.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 11:03:20 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/09 11:03:27 by taretiuk         ###   ########.fr       */
+/*   Created: 2024/01/15 14:31:24 by taretiuk          #+#    #+#             */
+/*   Updated: 2024/05/16 20:50:03 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft/libft.h"
 
-double	abs_double(double n)
+void	ft_char_length(char character, int *length)
 {
-	if (n < 0)
-		return (n * -1);
-	return (n);
+	write(1, &character, 1);
+	(*length)++;
 }

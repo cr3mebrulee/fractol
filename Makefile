@@ -1,78 +1,64 @@
 NAME = fractol
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -I/usr/include -Imlx_linux -O3
 PFLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o
 RM = rm -f
 AR = ar rcs
 DIR_OBJ = obj
 DIR_SRC = src
-SOURCES = burningship.c \
-          draw.c \
+SOURCES = make_fractal.c \
           julia.c \
           key_hooks.c \
+		  key_hooks_2.c \
 		  fractal_initialisation.c \
 		  main.c \
 		  mandelbrot.c \
 		  mouse_hooks.c \
-		  utils.c \
+		  utilit_functions.c \
+		  generate_double.c \
+		  check_arguments.c \
 		  tricorn.c
 LIBFT = libft
 MINLIBX = minilibx-linux
-HEADER = inc
+HEADER = include
 SRCS = $(addprefix $(DIR_SRC)/,$(SOURCES))
 OBJS = $(addprefix $(DIR_OBJ)/,$(SOURCES:.c=.o))
-NORM = norminette ./$(DIR_SRC) ./$(LIBFT) ./$(HEADER)
-COLOR_GREEN=\033[0;32m
-COLOR_RED=\033[0;31m
-COLOR_BLUE=\033[0;34m
-COLOR_END=\033[0m
-BOLD = $(shell tput bold)
 
-title: all
+make: all
 
 all: $(NAME)
 $(NAME): $(OBJS)
-	@echo "$(COLOR_BLUE)Creating libft.a and copying it to root directory.$(COLOR_END)"
+	@echo "\033[33m----Creating libft.a ${@}----"
 	make -C $(LIBFT)
 	cp $(LIBFT)/libft.a .
-	@echo "$(COLOR_BLUE)Creating libmlx_Linux.a and copying it to root directory.$(COLOR_END)"
+	@echo "\033[33m----Creating libmlx_Linux.a ${@}----"
 	make -C $(MINLIBX)
 	cp $(MINLIBX)/libmlx_Linux.a .
-	@echo "$(COLOR_BLUE)Creating $(NAME).$(COLOR_END)"
+	@echo "\033[33m----Creating $(NAME) \033[33m----"
 	$(CC) $(OBJS) libft.a libmlx_Linux.a $(PFLAGS) $(NAME)
-	@echo "$(COLOR_GREEN)$(NAME) created.✅$(COLOR_END)"
+	@echo "\033[33m----$(NAME) created ----"
 
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 	# @echo "Compiling $< into $@.\n"
 	mkdir -p $(DIR_OBJ)
 	$(CC) $(CFLAGS) -I $(HEADER) -c $< -o $@
-	# @echo "$(COLOR_GREEN)Compiled.✅$(COLOR_END)"
+	# @echo "\033[33m----Compiled.\033[33m----"
 
 clean:
 	clear
-	@echo "$(COLOR_BLUE)Cleaning object files.$(COLOR_END)"
+	@echo "\033[33m----Cleaning object files \033[33m----"
 	$(RM) -r $(DIR_OBJ)/*.o
-	@echo "$(COLOR_GREEN)$(NAME) object files cleaned.✅$(COLOR_END)"
+	@echo "\033[33m----$(NAME) object files cleaned \033[33m----"
 
 fclean: clean
-	@echo "$(COLOR_BLUE)Cleaning $(NAME) and libft.$(COLOR_END)"
+	@echo "\033[33m----Cleaning $(NAME) and libft \033[33m----"
 	$(RM) $(NAME) libft.a libmlx_Linux.a
 	make -C $(LIBFT) fclean
 	make -C $(MINLIBX) clean
 	clear
-	@echo "$(COLOR_GREEN)Project $(NAME) cleaned.✅$(COLOR_END)"
+	@echo "\033[33m----Project $(NAME) cleaned \033[33m----"
 
-re: fclean all title
-
-readme:
-	clear
-	cat README.c
+re: fclean all make
 
 .PHONY: all clean fclean re
-.SILENT: clean fclean re $(NAME) $(OBJS) $(DIR_OBJ)/%.o $(DIR_SRC)/%.c readme
-
-title:
-	@echo "$(COLOR_BLUE)$(BOLD)Fractol is a project that consists in creating a small fractal exploration program.$(COLOR_END)"
-	@echo "$(COLOR_BLUE)$(BOLD)This program is able to display four different fractals: Mandelbrot, Julia, Burning Ships and Tricorn.$(COLOR_END)"
-	@echo "$(COLOR_BLUE)$(BOLD)The program is able to zoom in and out, change the color palette, change the iterations and move the fractal.$(COLOR_END)"
-	@echo "$(COLOR_BLUE)$(BOLD)Type ./fractol to show available flags. For more informations: make readme$(COLOR_END)"
+.SILENT: clean fclean re $(NAME) $(OBJS) $(DIR_OBJ)/%.o $(DIR_SRC)/%.c

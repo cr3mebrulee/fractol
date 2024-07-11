@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/08 17:21:34 by taretiuk          #+#    #+#             */
+/*   Updated: 2024/07/11 11:25:51 by taretiuk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "../inc/fractol.h"
+#include "../include/fractol.h"
 
 void	calculate_mandelbrot(t_fractal *fractal)
 {
@@ -26,7 +37,7 @@ void	calculate_mandelbrot(t_fractal *fractal)
 		my_mlx_pixel_put(fractal, fractal->x, fractal->y, (i * fractal->color));
 }
 
-void	*draw_mandelbrot(void *frac_void)
+void	*render_mandelbrot(void *frac_void)
 {
 	t_fractal	*fractal;
 

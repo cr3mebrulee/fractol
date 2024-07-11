@@ -3,53 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fzucconi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/16 11:56:39 by fzucconi          #+#    #+#             */
-/*   Updated: 2023/10/16 11:56:43 by fzucconi         ###   ########.fr       */
+/*   Created: 2023/11/29 17:13:24 by taretiuk          #+#    #+#             */
+/*   Updated: 2024/07/08 14:50:58 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	lenght(long long int n)
+static int	ft_lennum(long num)
 {
-	size_t	counter;
+	int	strlen;
 
-	counter = 0;
-	if (n == 0)
+	strlen = 0;
+	if (num == 0)
 		return (1);
-	while (n)
+	else if (num < 0)
 	{
-		n /= 10;
-		counter++;
+		strlen++;
+		num *= -1;
 	}
-	return (counter);
+	while (num > 0)
+	{
+		num /= 10;
+		strlen++;
+	}
+	return (strlen);
 }
 
 char	*ft_itoa(int n)
 {
-	char			*ans;
-	int				len;
-	long long int	buf;
+	int		lenstr;
+	long	num;
+	char	*str;
 
-	buf = (long long int)n;
-	if (buf < 0)
-		len = lenght(buf) + 1;
-	else
-		len = lenght(buf);
-	ans = (char *)malloc(sizeof(char) * len + 1);
-	if (!ans)
-		return (0);
-	if (buf < 0)
-		buf *= -1;
-	ans[len--] = 0;
-	while (len >= 0)
+	num = n;
+	lenstr = ft_lennum(num);
+	str = (char *)malloc(sizeof(char) * (lenstr + 1));
+	if (!str)
+		return (NULL);
+	*(str + lenstr--) = '\0';
+	if (num == 0)
 	{
-		ans[len--] = (buf % 10) + '0';
-		buf /= 10;
+		*(str + 0) = '0';
 	}
-	if (n < 0)
-		ans[0] = '-';
-	return (ans);
+	else if (num < 0)
+	{
+		num *= -1;
+		*(str + 0) = '-';
+	}
+	while (num > 0)
+	{
+		*(str + lenstr--) = (48 + (num % 10));
+		num /= 10;
+	}
+	return (str);
 }

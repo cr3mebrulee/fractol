@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fzucconi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/12 17:26:03 by fzucconi          #+#    #+#             */
-/*   Updated: 2023/10/12 17:26:04 by fzucconi         ###   ########.fr       */
+/*   Created: 2023/11/23 14:31:25 by taretiuk          #+#    #+#             */
+/*   Updated: 2023/11/23 16:06:04 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,27 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	unsigned char	*ans;
-	int				i;
-	int				len_s1;
-	int				len;
+	char	*con;
+	size_t	length;
+	char	*start;
 
-	i = 0;
-	len_s1 = ft_strlen(s1);
-	len = len_s1 + ft_strlen(s2) + 1;
-	ans = (unsigned char *)malloc(sizeof(unsigned char) * len);
-	if (!ans)
+	length = ft_strlen(s1) + ft_strlen(s2);
+	con = (char *) malloc(length + 1);
+	start = con;
+	if (!con)
 		return (0);
-	while ((unsigned char)s1[i])
+	while (*s1)
 	{
-		ans[i] = (unsigned char)s1[i];
-		i++;
+		*con = *s1;
+		con++;
+		s1++;
 	}
-	i = 0;
-	while ((unsigned char)s2[i])
+	while (*s2)
 	{
-		ans[i + len_s1] = (unsigned char)s2[i];
-		i++;
+		*con = *s2;
+		con++;
+		s2++;
 	}
-	ans[len_s1 + i] = '\0';
-	return ((char *)ans);
+	*con = '\0';
+	return (start);
 }
