@@ -13,11 +13,10 @@ SOURCES = make_fractal.c \
 		  fractal_initialisation.c \
 		  main.c \
 		  mandelbrot.c \
-		  mouse_hooks.c \
+		  mouse_hook.c \
 		  utilit_functions.c \
 		  generate_double.c \
-		  check_arguments.c \
-		  tricorn.c
+		  check_arguments.c
 LIBFT = libft
 MINLIBX = minilibx-linux
 HEADER = include

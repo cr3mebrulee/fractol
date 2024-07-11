@@ -27,6 +27,6 @@ int	mouse_hook(int button, int x, int y, t_fractal *fractal)
 		fractal->offset_y += (y - (HEIGHT / 2)) / fractal->zoom;
 	}
 	printf("Button pressed: %d\n", button);
-	draw_fractal(fractal);
+	make_fractal(fractal);
 	return (0);
 }
