@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 10:54:19 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/11 14:07:52 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/07/14 12:48:40 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,18 @@ void	handle_color_shift_step(int keycode, t_fractal *fractal)
 	if (keycode == C)
 	{
 		fractal->color_shift_step += 1;
-		ft_printf("Increased color shift step!\n");
 	}
 	else if (keycode == V)
 	{
 		fractal->color_shift_step -= 1;
-		ft_printf("Decreased color shift step!\n");
 	}
 	else if (keycode == B)
 	{
 		fractal->color_shift_step = (255 * 255 * 255) / 100;
-		ft_printf("Reset color shift step!\n");
 	}
 }
 
-void	handle_special_keys(int keycode, t_fractal *fractal)
+void	handle_reset_key(int keycode, t_fractal *fractal)
 {
 	if (keycode == ONE)
 	{
@@ -41,18 +38,33 @@ void	handle_special_keys(int keycode, t_fractal *fractal)
 		fractal->zoom = 300;
 		fractal->offset_x = -2.1;
 		fractal->offset_y = -1.21;
-		ft_printf("Reset all!\n");
-	}
-	else if (keycode == J && fractal->flag == 2)
-	{
-		generate_double(fractal);
+		if (fractal->flag == 2)
+		{
+			fractal->zoom = 200;
+			fractal->offset_x = -2.0;
+			fractal->offset_y = -2.0;
+		}
+		fractal->c_x = -0.835;
+		fractal->c_y = -0.2321;
 	}
 }
 
-void	handle_other_keys(int keycode)
+void	handle_different_sets(int keycode, t_fractal *fractal)
 {
-	if (keycode != ENTER)
+	if (keycode == L)
 	{
-		ft_printf("Unmapped key: %d\n%s\n", keycode, COMMANDS);
+		fractal->c_x += C_STEP;
+	}
+	else if (keycode == K)
+	{
+		fractal->c_x -= C_STEP;
+	}
+	else if (keycode == I)
+	{
+		fractal->c_y -= C_STEP;
+	}
+	else if (keycode == O)
+	{
+		fractal->c_y += C_STEP;
 	}
 }

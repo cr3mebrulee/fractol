@@ -6,19 +6,18 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 10:04:32 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/11 12:00:22 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/07/14 12:08:36 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/fractol.h"
 
 void	my_mlx_pixel_put(t_fractal *fractal, int x, int y, int color)
 {
 	char	*dst;
-	// Calculates dst to point to the correct location in the image buffer
-	dst = fractal->addr + (y * fractal->line_length + x * (fractal->bits_per_pixel / 8));
-	// Writes the color value to the memory location pointed to by dst
+
+	dst = fractal->addr + (y * fractal->line_length
+			+ x * (fractal->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 
@@ -61,15 +60,15 @@ void	draw_commands_and_infos2(t_fractal *fractal)
 	if (fractal->flag == 2)
 	{
 		mlx_string_put(fractal->mlx, fractal->win, 40, 190, 0xFFFFFF,
-			"Randomize Julia: j");
-		mlx_string_put(fractal->mlx, fractal->win, 40, 210, 0xFFFFFF,
-			"Increase\\Decrease Cs: k l");
+			"Randomize Julia: i, o, k, l");
 		mlx_string_put(fractal->mlx, fractal->win, 40, 230, 0xFFFFFF,
 			"Exit: ESC");
 	}
 	else
+	{
 		mlx_string_put(fractal->mlx, fractal->win, 40, 190, 0xFFFFFF,
 			"Exit: ESC");
+	}
 }
 
 void	make_fractal(t_fractal *fractal)

@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 11:03:38 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/09 11:03:41 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/07/14 13:42:08 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ float	ft_strtof(const char *str)
 	float	result;
 	int		sign;
 	float	decimal_multiplier;
+	bool	decimal_found;
 
 	result = 0.0f;
 	sign = 1;
 	decimal_multiplier = 0.1f;
+	decimal_found = false;
 	check_sign(&str, &sign);
 	while (*str >= '0' && *str <= '9')
 		result = result * 10.0f + (*(str++) - '0');
@@ -44,5 +46,6 @@ float	ft_strtof(const char *str)
 			decimal_multiplier *= 0.1f;
 		}
 	}
-	return ((float)sign * (float)((int)result));
+	result = (float)sign * result;
+	return (result);
 }

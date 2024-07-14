@@ -6,36 +6,69 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:21:13 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/11 15:01:53 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/07/14 12:44:10 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fractol.h"
 
-// Calculates whether a given point belongs to the Julia set.
+void	reset_julia(t_fractal *fractal)
+{
+	fractal->c_x = 0.0;
+	fractal->c_y = 0.138240;
+	fractal->color_shift_step = (255 * 255 * 255) / 100;
+	fractal->color = INITIAL_COLOR;
+	fractal->max_iter = 100;
+	fractal->zoom = 300;
+	fractal->offset_x = -2.1;
+	fractal->offset_y = -1.21;
+	ft_printf("Reset Julia!\n");
+}
+
+void	get_plane_coordinates(t_fractal *fractal, double pixel_y)
+{
+	double	zoom;
+	int		pixel_x;
+	double	offset_x;
+	double	offset_y;
+
+	zoom = fractal->zoom;
+	pixel_x = fractal->x;
+	offset_x = fractal->offset_x;
+	offset_y = fractal->offset_y;
+	fractal->z_x = (pixel_x / zoom) + offset_x;
+	fractal->z_y = (pixel_y / zoom) + offset_y;
+}
+
+int	iterate_coordinates(t_fractal *fractal, int i)
+{
+	double	x_tmp;
+	double	z_x_squared;
+	double	z_y_squared;
+
+	z_x_squared = fractal->z_x * fractal->z_x;
+	z_y_squared = fractal->z_y * fractal->z_y;
+	while (i < fractal->max_iter && (z_x_squared + z_y_squared) < 4)
+	{
+		x_tmp = fractal->z_x;
+		fractal->z_x = z_x_squared - z_y_squared + fractal->c_x;
+		fractal->z_y = 2.0 * x_tmp * fractal->z_y + fractal->c_y;
+		z_x_squared = fractal->z_x * fractal->z_x;
+		z_y_squared = fractal->z_y * fractal->z_y;
+		i++;
+	}
+	return (i);
+}
+
 void	calculate_julia(t_fractal *fractal)
 {
+	double	flipped_y;
 	int		i;
-	double	x_tmp;
 
-	i = 0;
-	fractal->flag = 2;
-	// Converting pixel coordinates to complex plane coordinates
-	fractal->z_x = (fractal->x / fractal->zoom) + fractal->offset_x;
-	fractal->z_y = (fractal->y / fractal->zoom) + fractal->offset_y;
-	// Iterate the function z = z^2 + c
-	while (++i < fractal->max_iter && (fractal->z_x
-			* fractal->z_x + fractal->z_y * fractal->z_y) < 4)
-	{
-		// Storing initial value of x
-		x_tmp = fractal->z_x;
-		// Updating the real part of complex number z:
-		fractal->z_x = fractal->z_x * fractal->z_x - fractal->z_y
-			* fractal->z_y + fractal->c_x - 0.8;
-		// Updating the imaginary part of complex number z: 2xy + b
-		fractal->z_y = 2.0 * x_tmp * fractal->z_y + fractal->c_y;
-	}
-	// Color the pixel based on the number of iterations
+	i = 1;
+	flipped_y = HEIGHT - fractal->y - 1;
+	get_plane_coordinates(fractal, flipped_y);
+	i = iterate_coordinates(fractal, i);
 	if (i == fractal->max_iter)
 	{
 		my_mlx_pixel_put(fractal, fractal->x, fractal->y, 0x000000);
@@ -46,7 +79,6 @@ void	calculate_julia(t_fractal *fractal)
 	}
 }
 
-// Iterates over each pixel in the window and calls calculate_julia for each pixel.
 void	*render_julia(t_fractal *fractal)
 {
 	fractal->x = 0;
@@ -63,41 +95,4 @@ void	*render_julia(t_fractal *fractal)
 	mlx_put_image_to_window(fractal->mlx, fractal->win, fractal->img, 0, 0);
 	draw_commands_and_infos(fractal);
 	return (NULL);
-}
-
-// Handles user input to modify the parameters of the Julia set.
-int	julia_hook(int keycode, t_fractal *fractal)
-{
-	if (keycode == J)
-	{
-		generate_double(fractal);
-		ft_printf("Rnd Julia!\ncx: %f\tcy: %f\n", fractal->c_x, fractal->c_y);
-	}
-	else if (keycode == K)
-	{
-		fractal->c_x += C_STEP;
-		fractal->c_y += C_STEP;
-		ft_printf("Increased Cs!\n");
-	}
-	else if (keycode == L)
-	{
-		fractal->c_x -= C_STEP;
-		fractal->c_y -= C_STEP;
-		ft_printf("Decreased Cs!\n");
-	}
-	return (0);
-}
-
-// Resets the parameters to default values.
-void	reset_julia(t_fractal *fractal)
-{
-	fractal->c_x = 0.0;
-	fractal->c_y = 0.138240;
-	fractal->color_shift_step = (255 * 255 * 255) / 100;
-	fractal->color = INITIAL_COLOR;
-	fractal->max_iter = 100;
-	fractal->zoom = 300;
-	fractal->offset_x = -2.1;
-	fractal->offset_y = -1.21;
-	ft_printf("Reset Julia!\n");
 }

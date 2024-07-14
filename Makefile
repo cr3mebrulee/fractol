@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/07/14 12:09:35 by taretiuk          #+#    #+#              #
+#    Updated: 2024/07/14 12:09:35 by taretiuk         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = fractol
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I/usr/include -Imlx_linux -O3
@@ -14,9 +26,10 @@ SOURCES = make_fractal.c \
 		  main.c \
 		  mandelbrot.c \
 		  mouse_hook.c \
-		  utilit_functions.c \
 		  generate_double.c \
-		  check_arguments.c
+		  check_arguments.c \
+		  close_window_hook.c
+
 LIBFT = libft
 MINLIBX = minilibx-linux
 HEADER = include
@@ -25,8 +38,8 @@ OBJS = $(addprefix $(DIR_OBJ)/,$(SOURCES:.c=.o))
 
 make: all
 
-all: $(NAME)
-$(NAME): $(OBJS)
+all:	libft	$(NAME)
+$(NAME): $(OBJS) ${LIBFT}
 	@echo "\033[33m----Creating libft.a ${@}----"
 	make -C $(LIBFT)
 	cp $(LIBFT)/libft.a .
@@ -37,6 +50,9 @@ $(NAME): $(OBJS)
 	$(CC) $(OBJS) libft.a libmlx_Linux.a $(PFLAGS) $(NAME)
 	@echo "\033[33m----$(NAME) created ----"
 
+libft:
+	@make -C ./libft
+
 $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 	# @echo "Compiling $< into $@.\n"
 	mkdir -p $(DIR_OBJ)
@@ -46,7 +62,7 @@ $(DIR_OBJ)/%.o: $(DIR_SRC)/%.c
 clean:
 	clear
 	@echo "\033[33m----Cleaning object files \033[33m----"
-	$(RM) -r $(DIR_OBJ)/*.o
+	$(RM) -r $(DIR_OBJ)
 	@echo "\033[33m----$(NAME) object files cleaned \033[33m----"
 
 fclean: clean
@@ -61,3 +77,4 @@ re: fclean all make
 
 .PHONY: all clean fclean re
 .SILENT: clean fclean re $(NAME) $(OBJS) $(DIR_OBJ)/%.o $(DIR_SRC)/%.c
+

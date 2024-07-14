@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 12:59:05 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/11 12:59:28 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:13:36 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	generate_double(t_fractal *fractal)
 {
 	if (fractal->c_x == 0 && fractal->c_y == 0)
 	{
-		fractal->c_x = 0;
-		fractal->c_y = 0.138240;
+		fractal->c_x = -0.835;
+		fractal->c_y = -0.2321;
 		return ;
 	}
 	fractal->c_x *= 1.1 * 4 - 2;

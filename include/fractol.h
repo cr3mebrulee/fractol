@@ -6,7 +6,7 @@
 /*   By: taretiuk <taretiuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:45:52 by taretiuk          #+#    #+#             */
-/*   Updated: 2024/07/11 14:10:16 by taretiuk         ###   ########.fr       */
+/*   Updated: 2024/07/14 13:46:22 by taretiuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 # define INSTRUCTIONS "\n\
 Usage: ./fractol --mandelbrot (-m)                \n\
                  --julia (-j) (double) (double)\n\
-                 --burning-ship (-bs)          \n\
                  --help (-h)                   \n"
 # define COMMANDS "Commands:\n\
 				 Zoom: Shift + -\n\
@@ -42,14 +41,14 @@ Usage: ./fractol --mandelbrot (-m)                \n\
 				 Change color: r f t\n\
 				 Change color shift step: c v b\n\
 				 Reset: 1\n\
-				 Randomize Julia: j\n\
+				 Randomize Julia: i, o, k, l\n\
 				 Increase Cs (Julia): k\n\
 				 Decrease Cs (Julia): l\n\
 				 Exit: esc\n"
 
 /* Constants represent the key codes for various keyboard inputs */
 # define INITIAL_COLOR 365
-# define C_STEP 0.001
+# define C_STEP 0.1
 # define ESC 65307
 # define LEFT 65361
 # define RIGHT 65363
@@ -69,6 +68,8 @@ Usage: ./fractol --mandelbrot (-m)                \n\
 # define J 106
 # define K 107
 # define L 108
+# define I 105
+# define O 111
 # define ONE 49
 # define WHEEL_UP 4
 # define WHEEL_DOWN 5
@@ -103,15 +104,17 @@ typedef struct s_fractal
 }	t_fractal;
 
 float	ft_strtof(const char *str);
-void	fractal_initiallsation(t_fractal *fractal, char *title, int flag);
-int		killall_free(t_fractal *fractal);
-int		set_fractal_type(char *arg);
-int		check_arguments(int argc, char **argv);
+void	fractal_initiallisation(t_fractal *fractal, char *title, int flag);
+int		close_window_hook(t_fractal *fractal);
+int		kill_and_free(t_fractal *fractal);
+int		set_fractal_type(char *name);
+void	convert_parameters(char *s_1, char *s_2, int num, t_fractal *fractal);
+int		check_arguments(int argc, char **argv, t_fractal *fractal);
 void	generate_double(t_fractal *fractal);
 int		key_hook(int keycode, t_fractal *fractal);
+void	handle_different_sets(int keycode, t_fractal *fractal);
 void	handle_color_shift_step(int keycode, t_fractal *fractal);
-void	handle_special_keys(int keycode, t_fractal *fractal);
-void	handle_other_keys(int keycode);
+void	handle_reset_key(int keycode, t_fractal *fractal);
 int		mouse_hook(int button, int x, int y, t_fractal *fractal);
 void	make_fractal(t_fractal *fractal);
 void	my_mlx_pixel_put(t_fractal *data, int x, int y, int color);
@@ -121,8 +124,8 @@ void	draw_commands_and_infos2(t_fractal *fractal);
 void	calculate_mandelbrot(t_fractal *fractal);
 void	*render_mandelbrot(void *frac_void);
 void	calculate_julia(t_fractal *fractal);
+void	get_plane_coordinates(t_fractal *fractal, double pixel_y);
 void	*render_julia(t_fractal *fractal);
-int		julia_hook(int keycode, t_fractal *fractal);
 void	reset_julia(t_fractal *fractal);
 
 #endif
